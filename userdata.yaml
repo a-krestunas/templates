@@ -1,0 +1,18 @@
+#cloud-config
+datasource:
+ Ec2:
+  strict_id: false
+ssh_pwauth: no
+users:
+- name: username
+  sudo: ALL=(ALL) NOPASSWD:ALL
+  shell: /bin/bash
+  ssh-authorized-keys:
+  - paste_your_rsa_key_here
+bootcmd:
+  - [sh ,-xc, "uptime"]
+  - [sh ,-xc, "echo bootcmd"]
+runcmd:
+  - [sh ,-xc, "uptime"]
+  - [sh ,-xc, "echo runcmd"]
+final_message: "The system is finally up, after $UPTIME seconds"
