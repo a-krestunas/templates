@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: sysctl-vm-max-map-count
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: sysctl-vm-max-map-count
+  template:
+    metadata:
+      labels:
+        name: sysctl-vm-max-map-count
+    spec:
+      containers:
+      - name: sysctl
+        image: busybox
+        command: ["sh", "-c", "sysctl -w vm.max_map_count=262144"]
+        securityContext:
+          privileged: true
+        resources:
+          limits:
+            cpu: 100m
+            memory: 50Mi
+          requests:
+            cpu: 10m
+            memory: 10Mi
+

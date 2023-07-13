@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: set-mtu
+spec:
+  selector:
+    matchLabels:
+      app: set-mtu
+  template:
+    metadata:
+      labels:
+        app: set-mtu
+    spec:
+      containers:
+      - name: set-mtu
+        image: ubuntu:latets
+        command: ["sh", "-c", "ip link set dev eth0 mtu 1400"]
+        securityContext:
+          privileged: true
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "50Mi"
+          limits:
+            cpu: "200m"
+            memory: "100Mi"
+      hostNetwork: true
+      nodeSelector:
+        kubernetes.io/os: linux
